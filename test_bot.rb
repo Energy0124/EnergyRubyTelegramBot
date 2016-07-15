@@ -52,21 +52,14 @@ class TestBot
       @bot=bot
       bot.listen do |message|
         @last_message=message
-
+        puts message
         case message.text
           when '/start'
-            bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}")
+            bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}. I am started! >.<")
           when '/stop'
-            bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}")
-          when /fuck/i
-            send_reply("I fucking hate people saying 'fuck'.")
-            puts message.text
-          when /shit/i
-            send_reply('Shit!')
-          when /dota/i
-            send_reply('Dota is the best!')
-          when /stupid bot/i
-            send_reply('Still a bit smarter than you.')
+            bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}. Why did you stop me? T^T")
+          when '/help'
+            bot.api.send_message(chat_id: message.chat.id, text: "This bot is created by @Energy0124. \nSource code is avaliable here:\n ")
           when /\A\/run/i
             message.text.slice! '/run'
             begin
@@ -81,6 +74,14 @@ class TestBot
             rescue Exception => ex
               send_reply("Error:\n#{ex}")
             end
+          when /fuck/i
+            send_reply("I fucking hate people saying 'fuck'.")
+          when /shit/i
+            send_reply('Shit!')
+          when /dota/i
+            send_reply('Dota is the best!')
+          when /stupid bot/i
+            send_reply('Still a bit smarter than you.')
         end
       end
     end
