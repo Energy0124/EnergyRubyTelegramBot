@@ -88,6 +88,6 @@ class TestBot
   end
 end
 
-token = File.read("token.txt")
+token = File.read("token.txt").chomp!
 test_bot=TestBot.new token
 test_bot.start_bot
