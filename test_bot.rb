@@ -9,6 +9,7 @@ require "shikashi"
 # available methods:
 # p :times, :puts, :print, :each, :p, *Fixnum.methods
 
+
 include Shikashi
 # override the default Privileges class from Shikashi to add allow_methods for convenient
 module Shikashi
@@ -25,14 +26,27 @@ end
 
 # declare bot class
 class TestBot
-  # declare instance variable
-  @token = ''
-  @bot = NIL
-  @last_message=NIL
+
 
   # class constructor
   def initialize(token)
+    # declare instance variable
     @token = token
+    @bot = NIL
+    @last_message=NIL
+    @allowed_methods=Array.new
+    # method whitelist
+    methods=Fixnum.methods+Fixnum.instance_methods+Array.methods+Array.instance_methods
+    methods.each { |method|
+      # p method
+      @allowed_methods << method
+    }
+    [:times, :puts, :print, :each, :p].each { |method|
+      # p method
+      @allowed_methods << method
+    }
+
+
   end
 
   # utility method for capturing stdout
@@ -85,7 +99,7 @@ class TestBot
                 priv = Privileges.new
                 # whitelist some safe method
 
-                priv.allow_methods :times, :puts, :print, :each, :p, *Fixnum.methods
+                priv.allow_methods *@allowed_methods
                 # eval the ruby code
                 s.run(priv, message.text, :timeout => 3)
               }
@@ -93,7 +107,7 @@ class TestBot
               puts(stdout)
               # send stdout as telegram message
               send_reply("Result:\n#{stdout}")
-            #   catch exception
+                #   catch exception
             rescue Exception => ex
               send_reply("Error:\n#{ex}")
             end
