@@ -83,6 +83,9 @@ class TestBot
                 priv = Privileges.new
                 # whitelist some safe method
                 priv.allow_methods :times, :puts, :print, :each, :p
+                priv.instances_of(Fixnum).allow :times
+                priv.instances_of(Array).allow :each
+
                 # eval the ruby code
                 s.run(priv, message.text, :timeout => 3)
               }
