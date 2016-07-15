@@ -59,7 +59,7 @@ class TestBot
           when '/stop'
             bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}. Why did you stop me? T^T")
           when '/help'
-            bot.api.send_message(chat_id: message.chat.id, text: "This bot is created by @Energy0124. \nSource code is avaliable here:\n ")
+            bot.api.send_message(chat_id: message.chat.id, text: "This bot is created by @Energy0124. \nSource code is avaliable here:\n https://github.com/Energy0124/EnergyRubyTelegramBot.git ")
           when /\A\/run/i
             message.text.slice! '/run'
             begin
