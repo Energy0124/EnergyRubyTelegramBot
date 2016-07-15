@@ -80,9 +80,9 @@ class TestBot
                 s = Sandbox.new
                 priv = Privileges.new
                 # whitelist some safe method
-                priv.allow_methods :times, :puts, :print, :each
+                priv.allow_methods :times, :puts, :print, :each, :p
                 # eval the ruby code
-                s.run(priv, message.text, :no_base_namespace => true)
+                s.run(priv, message.text, :timeout => 3)
               }
               # print the stdout
               puts(stdout)
