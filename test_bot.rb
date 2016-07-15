@@ -38,7 +38,6 @@ class TestBot
     end
   end
 
-
   # def puts(o)
   #   super(o)
   #   $bot.api.send_message(chat_id: $message.chat.id, text: o.to_s)
@@ -47,7 +46,6 @@ class TestBot
   def send_reply(text)
     @bot.api.send_message(chat_id: @last_message.chat.id, text: text)
   end
-
 
   def start_bot
     Telegram::Bot::Client.run(@token) do |bot|
@@ -70,11 +68,8 @@ class TestBot
           when /stupid bot/i
             send_reply('Still a bit smarter than you.')
           when /\A\/run/i
-
             message.text.slice! '/run'
-
             begin
-
               stdout=with_captured_stdout {
                 s = Sandbox.new
                 priv = Privileges.new
@@ -89,7 +84,6 @@ class TestBot
         end
       end
     end
-
   end
 end
 
