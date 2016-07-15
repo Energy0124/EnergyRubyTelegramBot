@@ -66,7 +66,9 @@ class TestBot
           when /\A\/stop/
             bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}. Why did you stop me? T^T")
           when /\A\/help/
-            bot.api.send_message(chat_id: message.chat.id, text: "This bot is created by @Energy0124. \nSource code is avaliable here:\n https://github.com/Energy0124/EnergyRubyTelegramBot.git ")
+            bot.api.send_message(chat_id: message.chat.id, text:
+                "/run\n format: /run {code}\n Avaliable method: times, puts, print, each, p \n Example: \n/run 3.times{|x| puts x*x}\n /run puts I am a happy little bot.\n
+                This bot is created by @Energy0124. \nSource code is avaliable here:\n https://github.com/Energy0124/EnergyRubyTelegramBot.git ")
           # running ruby code on server in a sandbox
           when /\A\/run/
             if message.text=~ /\A\/run@Energy0124TestBot/
