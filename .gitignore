@@ -215,5 +215,8 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
+#Intellij
+/.idea
+
 #Telegram token config
 token.txt
