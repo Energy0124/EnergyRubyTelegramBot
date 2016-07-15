@@ -54,11 +54,11 @@ class TestBot
         @last_message=message
         puts message
         case message.text
-          when '/start'
+          when /\A\/start/i
             bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}. I am started! >.<")
-          when '/stop'
+          when /\A\/stop/i
             bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}. Why did you stop me? T^T")
-          when '/help'
+          when /\A\/help/i
             bot.api.send_message(chat_id: message.chat.id, text: "This bot is created by @Energy0124. \nSource code is avaliable here:\n https://github.com/Energy0124/EnergyRubyTelegramBot.git ")
           when /\A\/run/i
             message.text.slice! '/run'
