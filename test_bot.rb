@@ -6,6 +6,8 @@ require "shikashi"
 # require 'openssl'
 # OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
+# available methods:
+# p :times, :puts, :print, :each, :p, *Fixnum.methods
 
 include Shikashi
 # override the default Privileges class from Shikashi to add allow_methods for convenient
@@ -82,10 +84,8 @@ class TestBot
                 s = Sandbox.new
                 priv = Privileges.new
                 # whitelist some safe method
-                priv.allow_methods :times, :puts, :print, :each, :p
-                priv.instances_of(Fixnum).allow :times
-                priv.instances_of(Array).allow :each
 
+                priv.allow_methods :times, :puts, :print, :each, :p, *Fixnum.methods
                 # eval the ruby code
                 s.run(priv, message.text, :timeout => 3)
               }
