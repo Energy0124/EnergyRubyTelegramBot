@@ -1,6 +1,8 @@
 require 'telegram/bot'
 require "rubygems"
 require "shikashi"
+require 'net/http'
+
 
 # debug only:
 # require 'openssl'
@@ -34,18 +36,20 @@ class TestBot
     @token = token
     @bot = NIL
     @last_message=NIL
+    @allowed_const_read=Array.new
     @allowed_methods=Array.new
     # method whitelist
-    methods=Fixnum.methods+Fixnum.instance_methods+Array.methods+Array.instance_methods+String.methods+String.instance_methods
+    methods=Fixnum.methods+Fixnum.instance_methods+Array.methods+Array.instance_methods+String.methods+String.instance_methods+Net::HTTP.methods+Net::HTTP.instance_methods+Math.methods+Math.instance_methods
     methods.each { |method|
-      # p method
       @allowed_methods << method
     }
     [:times, :puts, :print, :each, :p].each { |method|
-      # p method
       @allowed_methods << method
     }
-
+    # constant whitelist
+    [Math].each { |const|
+      @allowed_const_read << const
+    }
 
   end
 
@@ -83,8 +87,7 @@ class TestBot
             bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}. Why did you stop me? T^T")
           when /\A\/help/
             bot.api.send_message(chat_id: message.chat.id, text:
-                "/run\nFormat: /run {code}\nAvailable method: times, puts, print, each, p \nExample: \n/run 3.times{|x| puts x*x}\n/run puts 'I am a happy little bot.'\n
-                This bot is created by @Energy0124. \nSource code is avaliable here:\n https://github.com/Energy0124/EnergyRubyTelegramBot.git ")
+                "/run\nFormat: /run {code}\nAvailable method: times, puts, print, each, p \nExample: \n/run 3.times{|x| puts x*x}\n/run puts 'I am a happy little bot.'\nThis bot is created by @Energy0124. \nSource code is avaliable here:\n https://github.com/Energy0124/EnergyRubyTelegramBot.git ")
           # running ruby code on server in a sandbox
           when /\A\/run/
             if message.text=~ /\A\/run@Energy0124TestBot/
@@ -98,7 +101,7 @@ class TestBot
                 s = Sandbox.new
                 priv = Privileges.new
                 # whitelist some safe method
-
+                priv.allow_const_read *@allowed_const_read
                 priv.allow_methods *@allowed_methods
                 # eval the ruby code
                 s.run(priv, message.text, :timeout => 3)
@@ -114,12 +117,12 @@ class TestBot
           #   for fun
           when /fuck/i
             send_reply("I fucking hate people saying 'fuck'.")
-          when /shit/i
-            send_reply('Shit!')
           when /dota/i
             send_reply('Dota is the best!')
           when /stupid bot/i
-            send_reply('Still a bit smarter than you.')
+            send_reply('Still a bit smarter than you :P')
+          when /\A\/(admin|secret)/i
+            send_reply('https://youtu.be/dQw4w9WgXcQ')
         end
       end
     end
