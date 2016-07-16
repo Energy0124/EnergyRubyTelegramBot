@@ -36,7 +36,7 @@ class TestBot
     @last_message=NIL
     @allowed_methods=Array.new
     # method whitelist
-    methods=Fixnum.methods+Fixnum.instance_methods+Array.methods+Array.instance_methods
+    methods=Fixnum.methods+Fixnum.instance_methods+Array.methods+Array.instance_methods+String.methods+String.instance_methods
     methods.each { |method|
       # p method
       @allowed_methods << method
